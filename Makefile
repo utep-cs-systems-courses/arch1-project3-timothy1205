@@ -1,16 +1,8 @@
 all:
-	(cd timerLib; make install)
-	(cd lcdLib; make install)
-	(cd wakedemo; make)
-#	(cd circledemo; make)
+	make -C timerLib install
+	make -C lcdLib install
 
-doc:
-	rm -rf doxygen_docs
-	doxygen Doxyfile
 clean:
-	(cd timerLib; make clean)
-	(cd lcdLib; make clean)
-#	(cd circledemo; make clean)
-	(cd wakedemo; make clean)
-	rm -rf lib h
-	rm -rf doxygen_docs/*
+	make -C timerLib clean
+	make -C lcdLib clean
+	rm -rf h lib
