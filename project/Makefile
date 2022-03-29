@@ -1,7 +1,7 @@
 # makfile configuration
-OBJS 		= main.o input.o output.o morse.o toy.o
+OBJS 		= main.o input.o output.o morse.o toy.o lcd.o
 CPU             = msp430g2553
-CFLAGS          = -mmcu=${CPU} -I../h -L/opt/ti/msp430_gcc/include
+CFLAGS          = -mmcu=${CPU} -I../h -L../lib -L/opt/ti/msp430_gcc/include
 
 #switch the compiler (for the internal make rules)
 CC              = msp430-elf-gcc
@@ -10,8 +10,8 @@ AS              = msp430-elf-as
 all: toy.elf 
 
 #additional rules for files
-toy.elf: ${OBJS} ../lib/libTimer.a
-	${CC} ${CFLAGS} -o $@ $^
+toy.elf: ${OBJS}
+	${CC} ${CFLAGS} -o $@ $^ -lTimer -lLcd
 
 load: toy.elf
 	msp430loader.sh $^
@@ -23,6 +23,7 @@ input.c: input.h toy.h
 output.c: output.h morse.h toy.h
 morse.c: morse.h
 toy.c: toy.h output.h
-main.c: input.h output.h toy.h
+lcd.c: lcd.h
+main.c: input.h output.h toy.h lcd.h
 
 

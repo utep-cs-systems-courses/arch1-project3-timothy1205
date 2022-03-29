@@ -3,6 +3,8 @@
 #include "input.h"
 #include "output.h"
 #include "toy.h"
+#include "lcdutils.h"
+#include "lcd.h"
 
 void wdt_init(void)
 {
@@ -16,8 +18,11 @@ void main(void)
   switch_init();
   led_init();
   wdt_init();
+  lcd_init();
+  or_sr(0x8);	              /**< GIE (enable interrupts) */
   
   toy_reset();
+  lcd_loop();
   
   or_sr(0x18);  // CPU off, GIE on
 } 
