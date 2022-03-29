@@ -14,10 +14,61 @@ main()
   lcd_init();
   u_char width = screenWidth, height = screenHeight;
 
+  /*
   clearScreen(COLOR_BLUE);
 
   drawString5x7(20,20, "hello", COLOR_GREEN, COLOR_RED);
 
   fillRectangle(30,30, 60, 60, COLOR_ORANGE);
-  
+  */
+  clearScreen(COLOR_WHITE);
+
+
+  drawString5x7(20, 20, "hi", COLOR_BLACK, COLOR_YELLOW);
+  drawString8x12(20, 40, "hello", COLOR_BLACK, COLOR_YELLOW);
+  drawString11x16(20, 60, "goodbye", COLOR_BLACK, COLOR_ORANGE);
+
+  /*
+  int length = 20;
+  int fCol = 50, fRow = 50;
+
+  // crossed triangle
+  for (int a = 0; a < length; a++) {
+    drawPixel(fCol + a, fRow + a, COLOR_BLUE);
+    drawPixel(fCol + a, fRow, COLOR_PURPLE);
+    drawPixel(fCol + length, fRow + a, COLOR_GREEN);
+
+    if (a % 2 == 1) {
+      for (int v = 0; v < a; v++) {
+        drawPixel(fCol + a, fRow + v, COLOR_PINK);
+        drawPixel(fCol + length - v, fRow + length - a, COLOR_RED);
+      }
+    }
+  }
+
+  // mirrored crossed triangle
+  for (int a = 0; a < length; a++) {
+    drawPixel(fCol + length + a, fRow, COLOR_BLUE);
+    drawPixel(fCol + length, fRow - a, COLOR_PURPLE);
+    drawPixel(fCol + length + a, fRow - length + a, COLOR_GREEN);
+
+    //if (a % 2 == 1) {
+    //  for (int v = 0; v < a; v++) {
+    //    drawPixel(fCol + a, fRow + v, COLOR_PINK);
+    //    drawPixel(fCol + length - v, fRow + length - a, COLOR_RED);
+    //  }
+    //}
+  }
+
+
+  int sCol = 50, sRow = 100, s = 0;
+  // asterisk
+  for (s = 0; s < length; s++) {
+    drawPixel(sCol + s, sRow + s, COLOR_BLACK);
+    drawPixel(sCol + (length / 2), sRow + s, COLOR_BLACK);
+    drawPixel(sCol + s, sRow + (length / 2), COLOR_BLACK);
+    drawPixel(sCol + length - s, sRow + s, COLOR_BLACK);
+  }
+
+  */
 }
