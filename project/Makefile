@@ -1,11 +1,13 @@
 # makfile configuration
-OBJS 		= main.o input.o output.o morse.o toy.o lcd.o
+#OBJS 		= main.o wdt_handler.o lcd.o 
+# SOMETHING IN output.o / output.c causing LCD TO BREAK
+OBJS 		= main.o lcd.o wdt_handler.o
 CPU             = msp430g2553
-CFLAGS          = -mmcu=${CPU} -I../h -L../lib -L/opt/ti/msp430_gcc/include
+CFLAGS          = -mmcu=${CPU} -Os -I../h -L../lib -L/opt/ti/msp430_gcc/include
 
 #switch the compiler (for the internal make rules)
 CC              = msp430-elf-gcc
-AS              = msp430-elf-as
+AS              = msp430-elf-gcc -mmcu=${CPU} -c
 
 all: toy.elf 
 

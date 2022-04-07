@@ -22,4 +22,6 @@ void led_red_off(void);
 void led_red_blink(void);
 void led_timer_interrupt(void);
 
+extern char wdt_wake_cpu;
+
 #endif // included

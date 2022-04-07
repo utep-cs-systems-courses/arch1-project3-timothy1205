@@ -12,7 +12,6 @@ void switch_interrupt_handler(void)
   P2IES &= (p2val | ~SWITCHES);	/* if switch down, sense up */
 
 //  if (p2val & SWITCHES)		/* button up */
-    //P1OUT |= BIT6;
     button_unpressed(p2val);
  // else			/* button down */
  // {
