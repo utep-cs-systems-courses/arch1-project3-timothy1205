@@ -2,19 +2,9 @@
 #include <libTimer.h>
 #include "lcdutils.h"
 #include "lcddraw.h"
+#include "switches.h"
 
-// WARNING: LCD DISPLAY USES P1.0.  Do not touch!!! 
-
-#define LED BIT6		/* note that bit zero req'd for display */
-
-#define SW1 1
-#define SW2 2
-#define SW3 4
-#define SW4 8
-
-#define SWITCHES 15
-
-static char 
+char 
 switch_update_interrupt_sense()
 {
   char p2val = P2IN;
@@ -36,12 +26,12 @@ switch_init()			/* setup switch */
 
 int switches = 0;
 
-void
-switch_interrupt_handler()
-{
-  char p2val = switch_update_interrupt_sense();
-  switches = ~p2val & SWITCHES;
-}
+//void
+//switch_interrupt_handler()
+//{
+//  char p2val = switch_update_interrupt_sense();
+//  switches = ~p2val & SWITCHES;
+//}
 
 
 // axis zero for col, axis 1 for row
