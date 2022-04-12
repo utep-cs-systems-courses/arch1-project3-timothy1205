@@ -8,16 +8,12 @@ static ToyState state = STATE_WAITING;
 void toy_reset(void)
 { 
   state = STATE_WAITING; 
-  led_red_off();
-  led_green_blink();
   buzzer_stop();
 }
 
 void toy_play_preset(unsigned char preset)
 {
   state = STATE_OUTPUTTING_MORSE;
-  led_green_off();
-  led_red_off();
   buzzer_play_preset(preset);
 }
 

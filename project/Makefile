@@ -1,7 +1,5 @@
 # makfile configuration
-#OBJS 		= main.o wdt_handler.o lcd.o 
-# SOMETHING IN output.o / output.c causing LCD TO BREAK
-OBJS 		= main.o lcd.o wdt_handler.o
+OBJS 		= main.o input.o output.o morse.o toy.o lcd.o wdt_handler.o
 CPU             = msp430g2553
 CFLAGS          = -mmcu=${CPU} -Os -I../h -L../lib -L/opt/ti/msp430_gcc/include
 

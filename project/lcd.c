@@ -7,7 +7,8 @@
 #include "lcddraw.h"
 #include "lcd.h"
 
-//char redrawScreen = 1;
+#define TEXT_BAR_HEIGHT 30
+
 short redrawScreen = 1;
 
 void wdt_c_handler()
@@ -25,17 +26,12 @@ void lcd_loop(void)
 {
   if (redrawScreen) {
     redrawScreen = 0;
-    clearScreen(COLOR_GREEN);
-    static short xpos = 0;
-    if (xpos++ > 100) xpos = 0;
-    fillRectangle(xpos, 0, 50, 50, COLOR_WHITE);
-  } else {
-   // update_screen();
+    
+    update_screen();
   }
 }
 
 void update_screen(void)
 {
-  clearScreen(COLOR_RED);
-  fillRectangle(0, 0, 50, 50, COLOR_WHITE);
+  fillRectangle(0, 0, screenWidth, TEXT_BAR_HEIGHT, COLOR_WHITE);
 }
