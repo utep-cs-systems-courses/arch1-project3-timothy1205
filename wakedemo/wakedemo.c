@@ -36,14 +36,6 @@ switch_init()			/* setup switch */
 
 int switches = 0;
 
-void
-switch_interrupt_handler()
-{
-  char p2val = switch_update_interrupt_sense();
-  switches = ~p2val & SWITCHES;
-}
-
-
 // axis zero for col, axis 1 for row
 short drawPos[2] = {10,10}, controlPos[2] = {10,10};
 short velocity[2] = {3,8}, limits[2] = {screenWidth-36, screenHeight-8};
@@ -56,13 +48,58 @@ void wdt_c_handler()
   static int secCount = 0;
 
   secCount ++;
-  if (secCount >= 25) {		/* 10/sec */
+  if (secCount >= 3) {		
     secCount = 0;
     redrawScreen = 1;
   }
 }
   
 void update_shape();
+void draw_square();
+
+typedef enum enum_SquareState {
+  RIGHT, DOWN, LEFT, UP
+} SquareState;
+#define SQUARE_SIZE 50
+
+void draw_square()
+{
+  static unsigned char posX = 0, posY = 0;
+  static SquareState squareState = RIGHT;
+
+  fillRectangle(posX, posY, SQUARE_SIZE, SQUARE_SIZE, COLOR_PURPLE);
+
+  switch (squareState) {
+    case RIGHT:
+      if ((++posX) + SQUARE_SIZE >= screenWidth) {
+        squareState = DOWN;
+        posX = screenWidth - SQUARE_SIZE;
+      }
+      fillRectangle(posX - 1, posY, 1, SQUARE_SIZE, COLOR_BLUE);
+      break;
+    case DOWN:
+      if ((++posY) + SQUARE_SIZE >= screenHeight) {
+        squareState = LEFT;
+        posY = screenHeight - SQUARE_SIZE;
+      }
+      fillRectangle(posX, posY - 1, SQUARE_SIZE, 1, COLOR_BLUE);
+      break;
+    case LEFT:
+      if (--posX <= 0) {
+        squareState = UP;
+        posX = 0;
+      }
+      fillRectangle(posX + SQUARE_SIZE, posY, 1, SQUARE_SIZE, COLOR_BLUE);
+      break;
+    case UP:
+      if (--posY <= 0) {
+        squareState = RIGHT;
+        posY = 0;
+      }
+      fillRectangle(posX, posY + SQUARE_SIZE, SQUARE_SIZE, 1, COLOR_BLUE);
+      break;
+  }
+}
 
 void main()
 {
@@ -80,41 +117,13 @@ void main()
   while (1) {			/* forever */
     if (redrawScreen) {
       redrawScreen = 0;
-      update_shape();
+      draw_square();
     }
     P1OUT &= ~LED;	/* led off */
     or_sr(0x10);	/**< CPU OFF */
     P1OUT |= LED;	/* led on */
   }
 }
-
-    
-    
-void
-update_shape()
-{
-  static unsigned char row = screenHeight / 2, col = screenWidth / 2;
-  static char blue = 31, green = 0, red = 31;
-  static unsigned char step = 0;
-  if (switches & SW4) return;
-  if (step <= 60) {
-    int startCol = col - step;
-    int endCol = col + step;
-    int width = 1 + endCol - startCol;
-    // a color in this BGR encoding is BBBB BGGG GGGR RRRR
-    unsigned int color = (blue << 11) | (green << 5) | red;
-    fillRectangle(startCol, row+step, width, 1, color);
-    fillRectangle(startCol, row-step, width, 1, color);
-    if (switches & SW3) green = (green + 1) % 64;
-    if (switches & SW2) blue = (blue + 2) % 32;
-    if (switches & SW1) red = (red - 3) % 32;
-    step ++;
-  } else {
-     clearScreen(COLOR_BLUE);
-     step = 0;
-  }
-}
-
 
 /* Switch on S2 */
 void
