@@ -1,9 +1,11 @@
 #include <msp430.h>
+#include <string.h>
 #include "libTimer.h"
 #include "output.h"
 #include "morse.h"
 #include "toy.h"
 
+#define MSG_BUFFER_LENGTH 50
 #define MORSE_BUFFER_LENGTH 200
 #define BUZZER_DIT_CYCLES 1000
 #define BUZZER_DAH_CYCLES 300
@@ -11,9 +13,13 @@
 #define LED_ON_INTERRUPTS 250
 #define LED_OFF_INTERRUPTS 100
 
+extern short redrawScreen; 
+
+char msg_buffer[MSG_BUFFER_LENGTH];
 static char morse_buffer[MORSE_BUFFER_LENGTH];
+unsigned char morse_buffer_size = 0;
 static char *buffer_pos;
-static BuzzerState buzzer_state = BUZZER_OFF;
+BuzzerState buzzer_state = BUZZER_OFF;
 static unsigned int buffer_counter = 0;
 
 void buzzer_init(void)
@@ -62,11 +68,17 @@ void buzzer_play_message(char *msg)
 {
   // Reset buffer
   morse_buffer[0] = '\0';
+  morse_buffer_size = 0;
   buffer_pos = morse_buffer;
   buzzer_state = BUZZER_START;
   
   // Fill our buffer with the trasnlation
-  morse_translate(msg, morse_buffer);
+  //strcpy(msg_buffer, "hi");
+  msg_buffer[0] = 'h';
+  msg_buffer[1] = 'i';
+  msg_buffer[2] = '\0';
+  morse_translate(msg, morse_buffer, &morse_buffer_size);
+  redrawScreen = 1;
 }
 
 static inline int get_interrupts(char c)

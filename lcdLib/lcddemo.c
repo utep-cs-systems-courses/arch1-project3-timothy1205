@@ -5,7 +5,12 @@
 #include <libTimer.h>
 #include "lcdutils.h"
 #include "lcddraw.h"
+#include <string.h>
 
+#define TEXT_BAR_HEIGHT 30
+static char msg[50];
+static char msg2[] = "gooooodbye";
+char s[5];
 /** Initializes everything, clears the screen, draws "hello" and a square */
 int
 main()
@@ -21,12 +26,17 @@ main()
 
   fillRectangle(30,30, 60, 60, COLOR_ORANGE);
   */
-  clearScreen(COLOR_WHITE);
+  clearScreen(COLOR_PURPLE);
+  
+  strcpy(s, "hi");
 
-
-  drawString5x7(20, 20, "hi", COLOR_BLACK, COLOR_YELLOW);
-  drawString8x12(20, 40, "hello", COLOR_BLACK, COLOR_YELLOW);
-  drawString11x16(20, 60, "goodbye", COLOR_BLACK, COLOR_ORANGE);
+  fillRectangle(0, 0, screenWidth, TEXT_BAR_HEIGHT, COLOR_WHITE);
+  drawString8x12(0, TEXT_BAR_HEIGHT / 2 - 4, s, COLOR_BLACK, COLOR_WHITE);
+  
+  //strcpy(msg, msg2);
+  //drawString5x7(20, 20, "hi", COLOR_BLACK, COLOR_YELLOW);
+  //drawString8x12(20, 40, "hello", COLOR_BLACK, COLOR_YELLOW);
+  //drawString11x16(20, 60, msg, COLOR_BLACK, COLOR_ORANGE);
 
   /*
   int length = 20;

@@ -32,7 +32,7 @@ static char dictionary[26][5] = {
   {"--**;"}  // z
 };
 
-void morse_translate(char *msg, char *buffer)
+void morse_translate(char *msg, char *buffer, unsigned char *size)
 {
   while (*msg != '\0') {
     // a starts at 97
@@ -41,12 +41,14 @@ void morse_translate(char *msg, char *buffer)
     if (*msg == ' ') {
       // Preserve spaces
       strcat(buffer, " ");
+      *size += 1;
     } else {
       if (i > 26)
 	return; // Shouldn't be possible
       
       // Append dictionary translation to buffer
       strcat(buffer, dictionary[i]);
+      *size += strlen(dictionary[i]);
     }
 
     msg++;

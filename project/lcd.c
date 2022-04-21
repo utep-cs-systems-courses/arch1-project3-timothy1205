@@ -1,4 +1,5 @@
 #include <msp430.h>
+#include <string.h>
 #include "libTimer.h"
 #include "input.h"
 #include "output.h"
@@ -6,6 +7,9 @@
 #include "lcdutils.h"
 #include "lcddraw.h"
 #include "lcd.h"
+
+extern char* msg_buffer;
+extern BuzzerState buzzer_state;
 
 #define TEXT_BAR_HEIGHT 30
 
@@ -26,12 +30,17 @@ void lcd_loop(void)
 {
   if (redrawScreen) {
     redrawScreen = 0;
-    
     update_screen();
   }
 }
 
+static char once = 0;
 void update_screen(void)
 {
-  fillRectangle(0, 0, screenWidth, TEXT_BAR_HEIGHT, COLOR_WHITE);
+  if (buzzer_state == BUZZER_PLAYING && !once) {
+    // Initial draw
+    fillRectangle(0, 0, 10, 30, COLOR_WHITE);
+    drawString8x12(0, 11, s, COLOR_BLACK, COLOR_RED);
+    once = 1;
+  }
 }

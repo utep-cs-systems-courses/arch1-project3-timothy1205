@@ -15,7 +15,7 @@
 int get_dit_interrupts(void);
 int get_dah_interrupts(void);
 int get_space_interrupts(void);
-void morse_translate(char *msg, char *buffer);
+void morse_translate(char *msg, char *buffer, unsigned char *size);
 void morse_listen(void);
 void morse_press_start(void);
 void morse_press_stop(void);
