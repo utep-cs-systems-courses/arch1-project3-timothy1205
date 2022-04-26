@@ -1,4 +1,6 @@
-#include "switches.h"
+#include "input.h"
+
+extern int switches;
 
 void switch_interrupt_handler()
 {
