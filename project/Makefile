@@ -1,29 +1,26 @@
 # makfile configuration
-OBJS 		= main.o input.o output.o morse.o toy.o lcd.o wdt_handler.o
-CPU             = msp430g2553
-CFLAGS          = -mmcu=${CPU} -Os -I../h -L../lib -L/opt/ti/msp430_gcc/include
+CPU             	= msp430g2553
+CFLAGS          	= -mmcu=${CPU} -Os -I../h
+LDFLAGS		= -L../lib -L/opt/ti/msp430_gcc/include/ 
 
 #switch the compiler (for the internal make rules)
 CC              = msp430-elf-gcc
 AS              = msp430-elf-gcc -mmcu=${CPU} -c
 
-all: toy.elf 
+all:wakedemo-c.elf wakedemo-s.elf
 
 #additional rules for files
-toy.elf: ${OBJS}
-	${CC} ${CFLAGS} -o $@ $^ -lTimer -lLcd
+wakedemo-c.elf: ${COMMON_OBJECTS} wakedemo.o wdt_handler.o switch_interrupt_handler-c.o
+	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^ -lTimer -lLcd 
 
-load: toy.elf
+wakedemo-s.elf: ${COMMON_OBJECTS} wakedemo.o wdt_handler.o switch_interrupt_handler-s.o
+	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^ -lTimer -lLcd 
+
+load-c: wakedemo-c.elf
+	msp430loader.sh $^
+
+load-s: wakedemo-s.elf
 	msp430loader.sh $^
 
 clean:
 	rm -f *.o *.elf
-
-input.c: input.h toy.h
-output.c: output.h morse.h toy.h
-morse.c: morse.h
-toy.c: toy.h output.h
-lcd.c: lcd.h
-main.c: input.h output.h toy.h lcd.h
-
-
