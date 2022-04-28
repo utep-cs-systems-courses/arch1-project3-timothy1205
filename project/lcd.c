@@ -4,8 +4,7 @@
 #include "lcddraw.h"
 #include "lcd.h"
 #include "output.h"
-
-#define LCD_BG COLOR_BLACK
+#include "ball.h"
 
 short redrawScreen = 0;
 
@@ -14,7 +13,7 @@ void wdt_c_handler()
   static int secCount = 0;
 
   secCount ++;
-  if (secCount >= 25) {		/* 10/sec */
+  if (secCount >= 8) { // about 60 fps
     secCount = 0;
     redrawScreen = 1;
   }
@@ -23,6 +22,9 @@ void wdt_c_handler()
 void game_loop()
 {
   clearScreen(LCD_BG);
+
+  generate_balls();
+
   while (1) {
     if (redrawScreen) {
       redrawScreen = 0;
@@ -37,5 +39,5 @@ void game_loop()
 
 void draw_screen()
 {
-
+  redraw_balls();
 }

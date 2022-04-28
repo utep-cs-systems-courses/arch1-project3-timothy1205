@@ -9,7 +9,7 @@ AS              = msp430-elf-gcc -mmcu=${CPU} -c
 
 all:project3-c.elf project3-s.elf
 
-COMMON_OBJECTS  = main.o wdt_handler.o lcd.o input.o output.o
+COMMON_OBJECTS  = main.o wdt_handler.o lcd.o input.o output.o ball.o
 
 #additional rules for files
 project3-c.elf: ${COMMON_OBJECTS} switch_interrupt_handler-c.o
