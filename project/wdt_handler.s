@@ -10,6 +10,7 @@
 
 	.extern redrawScreen
 	.extern wdt_c_handler
+        .extern buzzer_timer_interrupt
 WDT:
 	; start of prologue
 	PUSH	R15
@@ -26,6 +27,7 @@ WDT:
 	PUSH	R4
 	; end of prologue
 	CALL	#wdt_c_handler
+	CALL	#buzzer_timer_interrupt
 	; start of epilogue
 	POP	R4
 	POP	R5

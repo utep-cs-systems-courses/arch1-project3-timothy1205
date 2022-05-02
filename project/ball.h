@@ -9,9 +9,15 @@ typedef struct ball_struct {
   unsigned short color;
 } Ball;
 
-typedef enum ball_state_enum { BALL_NORMAL, BALL_CONVERGE } BallState;
+typedef enum ball_state_enum { BALLS_WAITING, BALLS_NORMAL, BALLS_CONVERGE } BallState;
 
 void generate_balls();
 void redraw_balls();
+
+void balls_start();
+void balls_converge(u_char ball_index);
+void balls_resume();
+
+void balls_handle_interrupt();
 
 #endif

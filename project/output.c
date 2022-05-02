@@ -3,6 +3,9 @@
 #include "libTimer.h"
 #include "output.h"
 
+#define BOUNCE_SOUND_LENGTH 15
+#define BOUNCE_PERIOD 2500
+
 BuzzerState buzzer_state = BUZZER_OFF;
 
 void buzzer_init(void)
@@ -33,11 +36,20 @@ void buzzer_stop(void)
   buzzer_state = BUZZER_OFF;
 }
 
-
-void buzzer_timer_interrupt(void)
+unsigned char bounce_sound_time = 0;
+void start_bounce_sound()
 {
+  bounce_sound_time = BOUNCE_SOUND_LENGTH;
+  buzzer_state = BUZZER_PLAYING;
+  buzzer_set_period(BOUNCE_PERIOD);
 }
 
+void update_ball_sound(void)
+{
+  if (--bounce_sound_time == 0) {
+    buzzer_stop();
+  }
+}
 
 void led_init(void)
 {
