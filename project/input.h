@@ -9,5 +9,6 @@
 
 void switch_interrupt_handler(void);
 void switch_init(void);
+char switch_update_interrupt_sense();
 
 #endif
