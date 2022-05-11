@@ -41,14 +41,14 @@ static void get_converge_offset(Ball *converger, Ball *convergee, short *x, shor
 {
   if (converger->x < convergee->x)
     *x = 1;
-  else if (converger->x = convergee->x)
+  else if (converger->x == convergee->x)
     *x = 0;
   else
     *x = -1;
 
   if (converger->y < convergee->y)
     *y = 1;
-  else if (converger->y = convergee->y)
+  else if (converger->y == convergee->y)
     *y = 0;
   else
     *y = -1;
